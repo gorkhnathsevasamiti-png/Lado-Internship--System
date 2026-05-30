@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Verification System</title>
+</head>
+<body>
+
+<h2>Certificate Verification</h2>
+
+<input id="id" placeholder="Enter ID / Name / Cert No">
+<button onclick="verify()">Check</button>
+
+<p id="result"></p>
+
+<script>
+function verify() {
+  let id = document.getElementById("id").value;
+
+  document.getElementById("result").innerHTML = "Checking...";
+
+  fetch("PASTE_YOUR_SCRIPT_URL?search=" + id)
+  .then(res => res.json())
+  .then(res => {
+
+    if(res.status === "found") {
+      let d = res.data;
+
+      document.getElementById("result").innerHTML =
+        "Name: " + d.studentName + "<br>" +
+        "Father: " + d.fatherName + "<br>" +
+        "College: " + d.college + "<br>" +
+        "Certificate: " + d.certificateNo;
+    } 
+    else {
+      document.getElementById("result").innerHTML = "Invalid Certificate ❌";
+    }
+
+  })
+  .catch(err => {
+    document.getElementById("result").innerHTML = "Server Error";
+  });
+}
+</script>
+
+</body>
+</html>
